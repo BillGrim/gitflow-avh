@@ -536,6 +536,18 @@ parse_args() {
 	BRANCH=$PREFIX$VERSION
 }
 
+parse_args_start() {
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
+
+	# read arguments into global variables
+	VERSION=$1
+	# BRANCH=$PREFIX$VERSION
+	DATE_PREFIX=$(date +"%Y-%m-%d_")
+	BRANCH=$PREFIX$DATE_PREFIX$VERSION
+}
+
 require_no_existing_release_branches() {
 	local release_branches first_branch
 
@@ -566,7 +578,7 @@ v,verbose!           Verbose (more) output
 	gitflow_override_flag_boolean   "release.start.fetch"   "fetch"
 
 	# Parse arguments
-	parse_args "$@"
+	parse_args_start "$@"
 	eval set -- "${FLAGS_ARGV}"
 	base=${2:-$DEVELOP_BRANCH}
 

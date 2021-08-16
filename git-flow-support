@@ -156,6 +156,20 @@ parse_args() {
 	BRANCH=$PREFIX$VERSION
 }
 
+parse_args_start() {
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
+
+	# read arguments into global variables
+	VERSION=$1
+	BASE=$2
+	# BRANCH=$PREFIX$VERSION
+	DATE_PREFIX=$(date +"%Y-%m-%d_")
+	BRANCH=$PREFIX$DATE_PREFIX$VERSION
+}
+
+
 cmd_start() {
 	OPTIONS_SPEC="\
 git flow support start [-h] [-F] <version> <base>
@@ -173,7 +187,7 @@ F,[no]fetch       Fetch from origin before performing finish
 	gitflow_override_flag_boolean   "support.start.fetch"   "fetch"
 
 	# Parse arguments
-	parse_args "$@"
+	parse_args_start "$@"
 
 	gitflow_require_version_arg
 	gitflow_require_base_arg

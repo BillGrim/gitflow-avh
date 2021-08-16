@@ -154,6 +154,18 @@ parse_args() {
 	BRANCH=$PREFIX$NAME
 }
 
+parse_start_args() {
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
+
+	# read arguments into global variables
+	NAME=$1
+	# BRANCH=$PREFIX$NAME
+	DATE_PREFIX=$(date +"%Y-%m-%d_")
+	BRANCH=$PREFIX$DATE_PREFIX$NAME
+}
+
 parse_remote_name() {
 	# Parse arguments
 	FLAGS "$@" || exit $?
@@ -193,7 +205,7 @@ F,[no]fetch      Fetch from origin before performing local operation
 	gitflow_override_flag_boolean   "bugfix.start.fetch"   "fetch"
 
 	# Parse arguments
-	parse_args "$@"
+	parse_start_args "$@"
 	eval set -- "${FLAGS_ARGV}"
 	base=${2:-$DEVELOP_BRANCH}
 
