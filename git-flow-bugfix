@@ -163,7 +163,8 @@ parse_start_args() {
 	NAME=$1
 	# BRANCH=$PREFIX$NAME
 	DATE_PREFIX=$(date +"%Y-%m-%d_")
-	BRANCH=$PREFIX$DATE_PREFIX$NAME
+	NAME=$DATE_PREFIX$NAME
+	BRANCH=$PREFIX$NAME
 }
 
 parse_remote_name() {

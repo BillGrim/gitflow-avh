@@ -543,9 +543,9 @@ parse_args_start() {
 
 	# read arguments into global variables
 	VERSION=$1
-	# BRANCH=$PREFIX$VERSION
 	DATE_PREFIX=$(date +"%Y-%m-%d_")
-	BRANCH=$PREFIX$DATE_PREFIX$VERSION
+	VERSION=$DATE_PREFIX$VERSION
+	BRANCH=$PREFIX$VERSION
 }
 
 require_no_existing_release_branches() {
